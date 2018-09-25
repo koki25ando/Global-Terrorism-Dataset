@@ -1,15 +1,4 @@
-library(shiny)
-library(DT)
-library(data.table)
-library(plotly)
-
-gtd <- fread("https://s3-ap-southeast-2.amazonaws.com/globalterrorismdataset/global_terrorism_dataset.csv", data.table = FALSE)
-gtd$iyear <- as.numeric(gtd$iyear)
-gtd$imonth <- as.numeric(gtd$imonth)
-gtd$iday <- as.numeric(gtd$iday)
-gtd$date <- as.Date(gtd$date)
-
-
+## ui Script
 
 fluidPage(
   titlePanel("Global Terrorism Dataset", windowTitle = "GTD"),
