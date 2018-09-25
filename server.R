@@ -1,17 +1,4 @@
-library(tidyverse)
-library(shiny)
-library(DT)
-library(data.table)
-library(bit64)
-library(maps)
-library(plotly)
-library(shinyjs)
-
-gtd <- fread("https://s3-ap-southeast-2.amazonaws.com/globalterrorismdataset/global_terrorism_dataset.csv", data.table = FALSE)
-gtd$iyear <- as.numeric(gtd$iyear)
-gtd$imonth <- as.numeric(gtd$imonth)
-gtd$iday <- as.numeric(gtd$iday)
-gtd$date <- as.Date(gtd$date)
+## Server script
 
 function(input, output){
   
@@ -24,8 +11,9 @@ function(input, output){
   })
   
   selected_df <- reactive({
-    req(input$select_var)
-    gtd %>% select(input$select_var)
+    # req(input$select_var)
+    gtd %>% 
+      dplyr::select(input$select_var)
   })
   
   selected_df_period <- reactive({
@@ -57,10 +45,10 @@ function(input, output){
       labs(x = "Longitude", y = "Latitude")
   })
   
-  output$table <- renderDataTable({
+  output$table <- DT::renderDataTable({
     DT::datatable(
-      data = selected_df(),
-      option = 
+      selected_df(),
+      option =
         list(lengthMenu = c(5, 10, 50),
              pageLength = 5),
       rownames = FALSE
